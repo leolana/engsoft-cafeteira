@@ -24,14 +24,12 @@ public class Event<T extends Statefull> {
     }
 
     public boolean canFire(T object) {
-	return transitions
-	    .stream()
+	return transitions.stream()
 	    .anyMatch(x -> x.canFire(object));
     }
 
     public boolean fire(T object) {
-	return transitions
-	    .stream()
+	return transitions.stream()
 	    .filter(x -> x.canFire(object))
 	    .map(x -> x.fire(object))
 	    .findAny()

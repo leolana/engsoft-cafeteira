@@ -27,8 +27,7 @@ public class StateMachine<T extends Statefull> extends Statefull {
     }
 
     public boolean canFire(String name) {
-	return getFireableEvent(name)
-	    .isPresent();
+	return getFireableEvent(name).isPresent();
     }
 
     public boolean consumeEvent(String name) {
@@ -42,8 +41,7 @@ public class StateMachine<T extends Statefull> extends Statefull {
     }
 
     private Optional<Event<T>> getFireableEvent(String name) {
-	return events
-	    .stream()
+	return events.stream()
 	    .filter(x -> x.getName().equals(name))
 	    .filter(x -> x.canFire(object))
 	    .findAny();

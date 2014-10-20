@@ -3,6 +3,7 @@ package engsoft.stateMachines;
 import java.util.HashSet;
 import java.util.function.Predicate;
 import java.util.function.Consumer;
+import java.util.Arrays;
 
 public class Transition<T extends Statefull> {
     private Event<T> event;
@@ -16,8 +17,7 @@ public class Transition<T extends Statefull> {
     }
 
     public boolean canFire(T object) {
-	return froms
-	    .stream()
+	return froms.stream()
 	    .filter(x -> x.equals(object.getState()) && guard.test(object))
 	    .findAny()
 	    .isPresent();
@@ -34,8 +34,8 @@ public class Transition<T extends Statefull> {
 	}
     }
 
-    public Transition<T> from(String fromState) {
-	froms.add(fromState);
+    public Transition<T> from(String... fromState) {
+	Arrays.stream(fromState).forEach(x -> froms.add(x));
 	return this;
     }
 
@@ -49,8 +49,8 @@ public class Transition<T extends Statefull> {
     	return this;
     }
 
-    public Transition<T> onTransition(Consumer<T> callback) {
-	this.callbacks.add(callback);
+    public Transition<T> onTransition(Consumer<T>... lambdas) {
+	Arrays.stream(lambdas).forEach(x -> callbacks.add(x));
 	return this;
     }
 
