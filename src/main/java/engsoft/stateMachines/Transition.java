@@ -2,28 +2,36 @@ package engsoft.stateMachines;
 
 import java.util.HashSet;
 import java.util.function.Predicate;
+import java.util.function.Consumer;
 
 public class Transition<T extends Statefull> {
     private Event<T> event;
     private HashSet<String> froms = new HashSet<String>();
     private String to;
-    private HashSet<Predicate<T>> guards = new HashSet<Predicate<T>>();
+    private Predicate<T> guard = x -> true;
+    private HashSet<Consumer<T>> callbacks = new HashSet<Consumer<T>>();
 
     Transition(Event<T> event) {
 	this.event = event;
     }
 
     public boolean canFire(T object) {
-	if(!froms.contains(object.getState())) return false;
-
-	for(Predicate<T> guard : guards) {
-	    if(!guard.test(object)) return false;
-	}
-	return true;
+	return froms
+	    .stream()
+	    .filter(x -> x.equals(object.getState()) && guard.test(object))
+	    .findAny()
+	    .isPresent();
     }
 
-    public void fire(T object) {
-	object.setState(to);
+    public boolean fire(T object) {
+	if(canFire(object)) {
+	    object.setState(to);
+	    callbacks.stream().forEach(x -> x.accept(object));
+
+	    return true;
+	} else {
+	    return false;
+	}
     }
 
     public Transition<T> from(String fromState) {
@@ -37,8 +45,13 @@ public class Transition<T extends Statefull> {
     }
 
     public Transition<T> guard(Predicate<T> clause) {
-	guards.add(clause);
+	this.guard = clause;
     	return this;
+    }
+
+    public Transition<T> onTransition(Consumer<T> callback) {
+	this.callbacks.add(callback);
+	return this;
     }
 
     public Event<T> done() {

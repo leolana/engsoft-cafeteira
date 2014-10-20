@@ -45,27 +45,36 @@ public class AppTest {
     public void testTransition() {
 	t.from("finished").to("finished");
 
+	t.guard(x -> false);
+	assertEquals(false, s.canFire("blarg"));
+	assertEquals(false, t.canFire(testObject));
+	assertEquals(false, e.canFire(testObject));
+
 	t.guard(x -> true);
 	assertEquals(true, s.canFire("blarg"));
 	assertEquals(true, t.canFire(testObject));
 	assertEquals(true, e.canFire(testObject));
 
-	t.guard(x -> false);
-	assertEquals(false, s.canFire("blarg"));
-	assertEquals(false, t.canFire(testObject));
-	assertEquals(false, e.canFire(testObject));
-	s.consumeEvent("blarg");
-	assertEquals(s.getState(), "finished");
-
 	e.addTransition().from("finished").to("dont-care");
-	assertEquals(true, s.canFire("blarg"));
-	assertEquals(true, e.canFire(testObject));
-
 	s.consumeEvent("blarg");
-	assertEquals(s.getState(), "dont-care");
+	assertEquals("dont-care", s.getState());
+
+	e.addTransition().from("dont-care").to("stuff").onTransition(x -> x.setState("finished"));
+	s.consumeEvent("blarg");
+
+	assertEquals("finished", s.getState());
     }
 
     @Test
     public void testFullConstruction() {
+	fs.setState("finished");
+	fs.consumeEvent("toggle");
+	assertEquals("start", fs.getState());
+
+	fs.consumeEvent("toggle");
+	assertEquals("finished", fs.getState());
+
+	fs.consumeEvent("junk");
+	assertEquals("finished", fs.getState());
     }
 }

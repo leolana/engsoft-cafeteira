@@ -1,6 +1,7 @@
 package engsoft.stateMachines;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 public class StateMachine<T extends Statefull> extends Statefull {
     private T object;
@@ -26,25 +27,25 @@ public class StateMachine<T extends Statefull> extends Statefull {
     }
 
     public boolean canFire(String name) {
-	Event<T> event = getEvent(name);
-	if(event != null) return event.canFire(object);
-
-	return false;
+	return getFireableEvent(name)
+	    .isPresent();
     }
 
-    public void consumeEvent(String name) {
-	if(canFire(name)) fire(name);
+    public boolean consumeEvent(String name) {
+	return fire(name);
     }
 
-    void fire(String name) {
-	Event<T> event = getEvent(name);
-	if(event != null) event.fire(object);
+    public boolean fire(String name) {
+	return getFireableEvent(name)
+	    .map(x -> x.fire(object))
+	    .isPresent();
     }
 
-    Event<T> getEvent(String name) {
-	for(Event<T> event : events) {
-	    if(event.getName() == name) return event;
-	}
-	return null;
+    private Optional<Event<T>> getFireableEvent(String name) {
+	return events
+	    .stream()
+	    .filter(x -> x.getName().equals(name))
+	    .filter(x -> x.canFire(object))
+	    .findAny();
     }
 }

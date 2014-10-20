@@ -24,20 +24,18 @@ public class Event<T extends Statefull> {
     }
 
     public boolean canFire(T object) {
-	for(Transition transition : transitions) {
-	    if(transition.canFire(object)) return true;
-	}
-
-	return false;
+	return transitions
+	    .stream()
+	    .anyMatch(x -> x.canFire(object));
     }
 
-    public void fire(T object) {
-	for(Transition transition : transitions) {
-	    if(transition.canFire(object)) {
-		transition.fire(object);
-		return;
-	    }
-	}
+    public boolean fire(T object) {
+	return transitions
+	    .stream()
+	    .filter(x -> x.canFire(object))
+	    .map(x -> x.fire(object))
+	    .findAny()
+	    .isPresent();
     }
 
     public StateMachine<T> done() {

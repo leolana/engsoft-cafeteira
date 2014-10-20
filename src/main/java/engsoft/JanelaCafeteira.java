@@ -128,8 +128,6 @@ public class JanelaCafeteira extends JFrame
         p2.add(progressCafe);
         p2.add(controleCafe);
 
-
-
         // Prepara o painel principal
         JPanel p3 = new JPanel();
         p3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
