@@ -18,22 +18,33 @@ public class StateMachine<T extends Statefull> extends Statefull {
 	object.setState(newState);
     }
 
-    public Event<T> addEvent() {
-	Event<T> event = new Event<T>(this);
+    public Event<T> addEvent(String name) {
+	Event<T> event = new Event<T>(this, name);
 	events.add(event);
 
 	return event;
     }
 
-    public boolean canFire(Event<T> event) {
-	return event.canFire(object);
+    public boolean canFire(String name) {
+	Event<T> event = getEvent(name);
+	if(event != null) return event.canFire(object);
+
+	return false;
     }
 
-    public void consumeEvent(Event<T> event) {
-	if(canFire(event)) fire(event);
+    public void consumeEvent(String name) {
+	if(canFire(name)) fire(name);
     }
 
-    void fire(Event<T> event) {
-	event.fire(object);
+    void fire(String name) {
+	Event<T> event = getEvent(name);
+	if(event != null) event.fire(object);
+    }
+
+    Event<T> getEvent(String name) {
+	for(Event<T> event : events) {
+	    if(event.getName() == name) return event;
+	}
+	return null;
     }
 }

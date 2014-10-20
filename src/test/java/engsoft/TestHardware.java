@@ -15,6 +15,11 @@ public class TestHardware {
 	h.iniciar();
     }
 
+    @AfterClass
+    public static void tearDownHardware() {
+    	h = null;
+    }
+
     @Test
     public void testHardware() {
     	testHardwareInitialState();
@@ -38,10 +43,4 @@ public class TestHardware {
         assertEquals(0, h.pegaNivelDeCafe());
 
     }
-
-    @AfterClass
-    public static void tearDownHardware() {
-    	h = null;
-    }
-
 }
