@@ -25,13 +25,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.border.LineBorder;
 
 /**
- * Classe que implementa a interface gráfica que permite manipular o 
+ * Classe que implementa a interface gráfica que permite manipular o
  * 'hardware' e observar o funcionamento da cafeteira.
  */
 
-public class JanelaCafeteira extends JFrame 
-        implements ChangeListener, ActionListener, ItemListener {
-    
+public class JanelaCafeteira extends JFrame
+    implements ChangeListener, ActionListener, ItemListener {
+
     private static final long serialVersionUID = -865097671714426223L;
 
     private Hardware hardware;
@@ -47,28 +47,28 @@ public class JanelaCafeteira extends JFrame
     private JSpinner waterSpinner;
 
     private boolean ready;
-    
+
 
     public JanelaCafeteira(Hardware oHardware) {
         super();
         hardware = oHardware;
         ready = false;
     }
-  
+
     public void preparaJanela() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                prepara();
-            }
-        });
+		public void run() {
+		    prepara();
+		}
+	    });
     }
-    
+
     protected void prepara() {
         // Prepara frame principal
         setResizable(false);
         setTitle("Cafeteira CafeBemBrasileiro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         // Instancia componentes da interface
         labelEbulidor = new JLabel();
         labelValvula = new JLabel();
@@ -85,7 +85,7 @@ public class JanelaCafeteira extends JFrame
         controleAgua.setLayout(new FlowLayout(FlowLayout.LEFT));
         controleAgua.add(waterSpinner);
         controleAgua.add(new JLabel("Água"));
-        
+
         progressCafe = new JProgressBar(0, 50);
         progressCafe.setOrientation(SwingConstants.VERTICAL);
         progressCafe.setBorder(new LineBorder(Color.BLUE,2));
@@ -95,7 +95,7 @@ public class JanelaCafeteira extends JFrame
         buttonTirarCafe.addActionListener(this);
         JPanel controleCafe = new JPanel();
         controleCafe.setLayout(new FlowLayout(FlowLayout.LEFT));
-        controleCafe.add(buttonTirarCafe);        
+        controleCafe.add(buttonTirarCafe);
         controleCafe.add(new JLabel("Café"));
 
         checkJarra = new JCheckBox("Jarra", true);
@@ -105,23 +105,23 @@ public class JanelaCafeteira extends JFrame
         buttonFazer.setActionCommand("buttonFazer");
         buttonFazer.setBackground(Color.LIGHT_GRAY);
         buttonFazer.addActionListener(this);
-        
-        
+
+
         // Prepara painel dos estados do hardware
         JPanel p1 = new JPanel(new GridLayout(4,1));
         p1.add(labelEbulidor);
         p1.add(labelValvula);
         p1.add(labelAquecedor);
         p1.add(labelIndicadora);
-        
+
         // Prepara o painel dos reservatorios
         JPanel p2 = new JPanel();
         LineBorder lb = new LineBorder(Color.DARK_GRAY,5);
         p2.setBorder(lb);
-        
+
         GridLayout grid = new GridLayout(2,2);
         grid.setVgap(50);
-        
+
         p2.setLayout(grid);
         p2.add(progressAgua);
         p2.add(controleAgua);
@@ -129,7 +129,7 @@ public class JanelaCafeteira extends JFrame
         p2.add(controleCafe);
 
 
-        
+
         // Prepara o painel principal
         JPanel p3 = new JPanel();
         p3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -140,10 +140,10 @@ public class JanelaCafeteira extends JFrame
         JPanel p4 = new JPanel();
         p4.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         p4.add(buttonFazer);
-        p4.add(checkJarra);                
+        p4.add(checkJarra);
         p4.setAlignmentX(Component.CENTER_ALIGNMENT);
         getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+				   new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(p3);
         getContentPane().add(p4);
 
@@ -152,7 +152,7 @@ public class JanelaCafeteira extends JFrame
         ready = true;
         atualizaEstado();
     }
-    
+
     public void stateChanged(ChangeEvent e) {
     	JSpinner spinner = (JSpinner) e.getSource();
     	Integer spinnerValue = (Integer) spinner.getValue();
@@ -163,12 +163,12 @@ public class JanelaCafeteira extends JFrame
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if ("buttonFazer".equals(command)) {
-        	// buttonFazer.setBackground(Color.LIGHT_GRAY);
+	    // buttonFazer.setBackground(Color.LIGHT_GRAY);
             hardware.pressionaBotao();
         } else if ("tirarCafe".equals(command)) {
-        	if (hardware.leEstadoEbulidor().equals(EstadoHardware.ehEbulidorVazio) &&
-        			hardware.leEstadoAquecedor().equals(EstadoHardware.ehPlacaVazia))
-            hardware.ajustaNivelDeCafe(hardware.pegaNivelDeCafe() - 1);
+	    if (hardware.leEstadoEbulidor().equals(EstadoHardware.ehEbulidorVazio) &&
+		hardware.leEstadoAquecedor().equals(EstadoHardware.ehPlacaVazia))
+		hardware.ajustaNivelDeCafe(hardware.pegaNivelDeCafe() - 1);
         }
     }
 
@@ -181,54 +181,54 @@ public class JanelaCafeteira extends JFrame
             }
         }
     }
-    
+
     public void atualizaEstado() {
     	javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                atualiza();
-            }
-        });
+		public void run() {
+		    atualiza();
+		}
+	    });
     }
-        
+
     protected void atualiza() {
         if (ready) {
             if (hardware.leEstadoElementoEbulidor().equals(
-                    EstadoHardware.ehEbulidorLigado)) {
+							   EstadoHardware.ehEbulidorLigado)) {
                 labelEbulidor.setText("Ebulidor");
                 labelEbulidor.setForeground(Color.GREEN);
             } else {
                 labelEbulidor.setText("Ebulidor");
                 labelEbulidor.setForeground(Color.RED);
-             //   buttonFazer.setBackground(Color.LIGHT_GRAY);
+		//   buttonFazer.setBackground(Color.LIGHT_GRAY);
             }
-            
+
             if (hardware.leEstadoValvulaPressao().equals(
-                    EstadoHardware.ehValvulaAberta)) {
+							 EstadoHardware.ehValvulaAberta)) {
                 labelValvula.setText("Válvula Aberta");
                 labelValvula.setForeground(Color.GREEN);
             } else {
             	labelValvula.setText("Válvula Fechada");
                 labelValvula.setForeground(Color.RED);
             }
-            
+
             if (hardware.leEstadoElementoAquecedor().equals(
-                    EstadoHardware.ehAquecedorLigado)) {
+							    EstadoHardware.ehAquecedorLigado)) {
                 labelAquecedor.setText("Aquecedor");
                 labelAquecedor.setForeground(Color.GREEN);
             } else {
                 labelAquecedor.setText("Aquecedor");
                 labelAquecedor.setForeground(Color.RED);
             }
-            
+
             if (hardware.leEstadoLuzIndicadora().equals(
-                    EstadoHardware.ehIndicadoraLigada)) {
+							EstadoHardware.ehIndicadoraLigada)) {
                 labelIndicadora.setText("CAFÉ!");
                 labelIndicadora.setForeground(Color.GREEN);
             } else {
                 labelIndicadora.setText("CAFÉ.");
                 labelIndicadora.setForeground(Color.RED);
             }
-            
+
             progressAgua.setValue(hardware.pegaNivelDeAgua());
             waterSpinner.setValue(hardware.pegaNivelDeAgua());
             progressCafe.setValue(hardware.pegaNivelDeCafe());

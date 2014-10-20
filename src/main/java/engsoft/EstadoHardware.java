@@ -4,7 +4,7 @@ package engsoft;
  * Classe que engloba os estados dos componentes de hardware.
  */
 public class EstadoHardware {
-    
+
     public static final EstadoHardware ehJarraNaoVazia =          new EstadoHardware(0);
     public static final EstadoHardware ehJarraVazia =             new EstadoHardware(1);
     public static final EstadoHardware ehPlacaVazia =             new EstadoHardware(2);
@@ -29,6 +29,6 @@ public class EstadoHardware {
 
     public boolean equals(Object obj) {
         return (obj != null) && (obj instanceof EstadoHardware)
-                && ((EstadoHardware) obj).id == id;
+	    && ((EstadoHardware) obj).id == id;
     }
 }

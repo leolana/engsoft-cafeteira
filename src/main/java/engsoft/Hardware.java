@@ -28,9 +28,9 @@ public class Hardware {
      * estado inicial do software de controle.
      */
     public Hardware(Boolean hasIHC) {
-    	
+
     	this.hasIHC = hasIHC;
-    	
+
         estadoAquecedor = EstadoHardware.ehJarraVazia;
         estadoEbulidor = EstadoHardware.ehEbulidorVazio;
         estadoInterruptor = EstadoHardware.ehInterruptorSolto;
@@ -41,10 +41,10 @@ public class Hardware {
 
         nivelDeAgua = 0;
         nivelDeCafe = 0;
-        
+
         jc = null;
         if (this.hasIHC) {
-        	jc = new JanelaCafeteira(this);
+	    jc = new JanelaCafeteira(this);
         }
     }
 
@@ -59,8 +59,8 @@ public class Hardware {
 
     public void atuElementoAquecedor(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.ehAquecedorLigado)
-                || modo.equals(EstadoHardware.ehAquecedorDesligado)) {
-            estadoElementoAquecedor = modo;     
+	    || modo.equals(EstadoHardware.ehAquecedorDesligado)) {
+            estadoElementoAquecedor = modo;
             if (this.hasIHC) { System.out.println("atuElementoAquecedor\n"); jc.atualizaEstado(); }
         }
     }
@@ -72,7 +72,7 @@ public class Hardware {
 
     public void atuEstadoElementoEbulidor(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.ehEbulidorLigado)
-                || modo.equals(EstadoHardware.ehEbulidorDesligado)) {
+	    || modo.equals(EstadoHardware.ehEbulidorDesligado)) {
             estadoElementoEbulidor = modo;
             if (this.hasIHC) { System.out.println("atuEstadoElmentoEbulidor\n"); jc.atualizaEstado(); }
         }
@@ -88,7 +88,7 @@ public class Hardware {
     // Luz indicadora
     public void atuLuzIndicadora(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.ehIndicadoraLigada)
-                || modo.equals(EstadoHardware.ehIndicadoraDesligada)) {
+	    || modo.equals(EstadoHardware.ehIndicadoraDesligada)) {
             estadoLuzIndicadora = modo;
             if (this.hasIHC) { System.out.println("atuLuzIndicadora\n"); jc.atualizaEstado(); }
         }
@@ -97,7 +97,7 @@ public class Hardware {
     // Válvula de pressão
     public void atuValvulaPressao(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.ehValvulaAberta)
-                || modo.equals(EstadoHardware.ehValvulaFechada)) {
+	    || modo.equals(EstadoHardware.ehValvulaFechada)) {
             estadoValvulaPressao = modo;
             if (this.hasIHC) { System.out.println("atuValvulaPressao\n"); jc.atualizaEstado(); }
         }
@@ -178,29 +178,29 @@ public class Hardware {
     // gráfica.
     public synchronized void executa() {
         if (estadoEbulidor.equals(EstadoHardware.ehEbulidorNaoVazio)
-                && estadoElementoEbulidor.equals(EstadoHardware.ehEbulidorLigado)
-                && estadoValvulaPressao.equals(EstadoHardware.ehValvulaFechada)) {
+	    && estadoElementoEbulidor.equals(EstadoHardware.ehEbulidorLigado)
+	    && estadoValvulaPressao.equals(EstadoHardware.ehValvulaFechada)) {
             ajustaNivelDeAgua(pegaNivelDeAgua() - 1);
             ajustaNivelDeCafe(pegaNivelDeCafe() + 1);
         }
     }
-    
+
     public void iniciar() {
         // Inicia a ebulição da água
     	new Serpentina(this).start();
         // Inicia a interface gráfica
-        if (this.hasIHC) { System.out.println("iniciar\n"); jc.preparaJanela(); } 
+        if (this.hasIHC) { System.out.println("iniciar\n"); jc.preparaJanela(); }
     }
-    
+
     class Serpentina extends Thread {
-        
+
         private Hardware hardware;
 
         public Serpentina(Hardware hardware) {
             this.hardware = hardware;
         }
 
-		public void run() {
+	public void run() {
             try {
                 while (true) {
                     sleep(500);
@@ -210,7 +210,4 @@ public class Hardware {
             }
         }
     }
-   
-    
 }
-

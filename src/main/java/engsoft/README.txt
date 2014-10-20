@@ -8,4 +8,3 @@ Projeto Orientado a Objetos: Cafeteira
 de análise/projeto/implementação e teste de sua cafeteira.
 2. Insira as classes que tiver determinado, pelo menos com atributos e métodos.
 3. faça o commit.
-
