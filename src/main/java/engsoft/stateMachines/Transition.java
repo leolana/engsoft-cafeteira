@@ -1,16 +1,13 @@
 package engsoft.stateMachines;
 
 import java.util.HashSet;
+import java.util.function.Predicate;
 
 public class Transition<T extends Statefull> {
-    public interface GuardClause<T> {
-	Boolean run(T object);
-    }
-
     private Event<T> event;
     private HashSet<String> froms = new HashSet<String>();
     private String to;
-    private HashSet<GuardClause> guards = new HashSet<GuardClause>();
+    private HashSet<Predicate<T>> guards = new HashSet<Predicate<T>>();
 
     Transition(Event<T> event) {
 	this.event = event;
@@ -19,8 +16,8 @@ public class Transition<T extends Statefull> {
     public boolean canFire(T object) {
 	if(!froms.contains(object.getState())) return false;
 
-	for(GuardClause guard : guards) {
-	    if(!guard.run(object)) return false;
+	for(Predicate<T> guard : guards) {
+	    if(!guard.test(object)) return false;
 	}
 	return true;
     }
@@ -39,7 +36,7 @@ public class Transition<T extends Statefull> {
 	return this;
     }
 
-    public Transition<T> guard(GuardClause<T> clause) {
+    public Transition<T> guard(Predicate<T> clause) {
 	guards.add(clause);
     	return this;
     }
