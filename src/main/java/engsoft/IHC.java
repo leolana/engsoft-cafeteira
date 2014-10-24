@@ -1,4 +1,4 @@
-package inf319;
+package engsoft;
 
 /** 
  * Esta classe implementa o controle da IHC da cafeteira CafeBemBrasileiro.

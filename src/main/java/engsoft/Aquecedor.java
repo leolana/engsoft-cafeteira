@@ -1,4 +1,4 @@
-package inf319;
+package engsoft;
 
 /**
  * Esta classe implementa o controle do sistema do aquecedor da cafeteira

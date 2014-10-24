@@ -1,4 +1,4 @@
-package inf319;
+package engsoft;
 
 /** 
  * Interface para um cliente genérico da IHC.

@@ -1,4 +1,4 @@
-package inf319;
+package engsoft;
 
 /**
  * Classe que implementa a interface e encarna o 'hardware' da cafeteira.

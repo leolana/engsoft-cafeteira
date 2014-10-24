@@ -1,4 +1,4 @@
-package inf319;
+package engsoft;
 
 /**
  * Classe que engloba os estados dos componentes de hardware.
