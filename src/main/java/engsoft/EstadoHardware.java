@@ -1,25 +1,25 @@
-package engsoft;
+package inf319;
 
 /**
  * Classe que engloba os estados dos componentes de hardware.
  */
 public class EstadoHardware {
     
-    public static final EstadoHardware ehJarraNaoVazia =          new EstadoHardware(0);
-    public static final EstadoHardware ehJarraVazia =             new EstadoHardware(1);
-    public static final EstadoHardware ehPlacaVazia =             new EstadoHardware(2);
-    public static final EstadoHardware ehEbulidorVazio =          new EstadoHardware(3);
-    public static final EstadoHardware ehEbulidorNaoVazio =       new EstadoHardware(4);
-    public static final EstadoHardware ehInterruptorPressionado = new EstadoHardware(5);
-    public static final EstadoHardware ehInterruptorSolto =       new EstadoHardware(6);
-    public static final EstadoHardware ehEbulidorLigado =         new EstadoHardware(7);
-    public static final EstadoHardware ehEbulidorDesligado =      new EstadoHardware(8);
-    public static final EstadoHardware ehAquecedorLigado =        new EstadoHardware(9);
-    public static final EstadoHardware ehAquecedorDesligado =     new EstadoHardware(10);
-    public static final EstadoHardware ehIndicadoraLigada =       new EstadoHardware(11);
-    public static final EstadoHardware ehIndicadoraDesligada =    new EstadoHardware(12);
-    public static final EstadoHardware ehValvulaAberta =          new EstadoHardware(13);
-    public static final EstadoHardware ehValvulaFechada =         new EstadoHardware(14);
+    public static final EstadoHardware jarraNaoVazia =          new EstadoHardware(0);
+    public static final EstadoHardware jarraVazia =             new EstadoHardware(1);
+    public static final EstadoHardware placaVazia =             new EstadoHardware(2);
+    public static final EstadoHardware ebulidorVazio =          new EstadoHardware(3);
+    public static final EstadoHardware ebulidorNaoVazio =       new EstadoHardware(4);
+    public static final EstadoHardware interruptorPressionado = new EstadoHardware(5);
+    public static final EstadoHardware interruptorSolto =       new EstadoHardware(6);
+    public static final EstadoHardware ebulidorLigado =         new EstadoHardware(7);
+    public static final EstadoHardware ebulidorDesligado =      new EstadoHardware(8);
+    public static final EstadoHardware aquecedorLigado =        new EstadoHardware(9);
+    public static final EstadoHardware aquecedorDesligado =     new EstadoHardware(10);
+    public static final EstadoHardware indicadoraLigada =       new EstadoHardware(11);
+    public static final EstadoHardware indicadoraDesligada =    new EstadoHardware(12);
+    public static final EstadoHardware valvulaAberta =          new EstadoHardware(13);
+    public static final EstadoHardware valvulaFechada =         new EstadoHardware(14);
 
     private int id;
 

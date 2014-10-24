@@ -1,4 +1,4 @@
-package engsoft;
+package inf319;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -48,13 +48,12 @@ public class JanelaCafeteira extends JFrame
 
     private boolean ready;
     
-
     public JanelaCafeteira(Hardware oHardware) {
         super();
         hardware = oHardware;
         ready = false;
     }
-  
+
     public void preparaJanela() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -166,8 +165,8 @@ public class JanelaCafeteira extends JFrame
         	// buttonFazer.setBackground(Color.LIGHT_GRAY);
             hardware.pressionaBotao();
         } else if ("tirarCafe".equals(command)) {
-        	if (hardware.leEstadoEbulidor().equals(EstadoHardware.ehEbulidorVazio) &&
-        			hardware.leEstadoAquecedor().equals(EstadoHardware.ehPlacaVazia))
+        	if (hardware.leEstadoEbulidor().equals(EstadoHardware.ebulidorVazio) &&
+        			hardware.leEstadoAquecedor().equals(EstadoHardware.placaVazia))
             hardware.ajustaNivelDeCafe(hardware.pegaNivelDeCafe() - 1);
         }
     }
@@ -183,7 +182,7 @@ public class JanelaCafeteira extends JFrame
     }
     
     public void atualizaEstado() {
-    	javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 atualiza();
             }
@@ -193,7 +192,7 @@ public class JanelaCafeteira extends JFrame
     protected void atualiza() {
         if (ready) {
             if (hardware.leEstadoElementoEbulidor().equals(
-                    EstadoHardware.ehEbulidorLigado)) {
+                    EstadoHardware.ebulidorLigado)) {
                 labelEbulidor.setText("Ebulidor");
                 labelEbulidor.setForeground(Color.GREEN);
             } else {
@@ -203,7 +202,7 @@ public class JanelaCafeteira extends JFrame
             }
             
             if (hardware.leEstadoValvulaPressao().equals(
-                    EstadoHardware.ehValvulaAberta)) {
+                    EstadoHardware.valvulaAberta)) {
                 labelValvula.setText("Válvula Aberta");
                 labelValvula.setForeground(Color.GREEN);
             } else {
@@ -212,7 +211,7 @@ public class JanelaCafeteira extends JFrame
             }
             
             if (hardware.leEstadoElementoAquecedor().equals(
-                    EstadoHardware.ehAquecedorLigado)) {
+                    EstadoHardware.aquecedorLigado)) {
                 labelAquecedor.setText("Aquecedor");
                 labelAquecedor.setForeground(Color.GREEN);
             } else {
@@ -221,7 +220,7 @@ public class JanelaCafeteira extends JFrame
             }
             
             if (hardware.leEstadoLuzIndicadora().equals(
-                    EstadoHardware.ehIndicadoraLigada)) {
+                    EstadoHardware.indicadoraLigada)) {
                 labelIndicadora.setText("CAFÉ!");
                 labelIndicadora.setForeground(Color.GREEN);
             } else {
