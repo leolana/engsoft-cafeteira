@@ -72,9 +72,9 @@ public class TestCafeteira {
     assertEquals(0,h.pegaNivelDeAgua());
     assertEquals(10,h.pegaNivelDeCafe());
     c.executa();
-    assertEquals(EstadoAquecedor.cafeFeito, c.getEstadoAquecedor());
     assertEquals(EstadoVaporizador.naoFazendo, c.getEstadoVaporizador());
     assertEquals(EstadoIHC.cafeFeito, c.getEstadoIHC());
+    assertEquals(EstadoAquecedor.cafeFeito, c.getEstadoAquecedor());
     }
 	
 	@Test

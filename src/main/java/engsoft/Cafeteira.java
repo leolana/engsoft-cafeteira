@@ -73,15 +73,15 @@ public class Cafeteira {
             hardware.atuLuzIndicadora(EstadoHardware.ehIndicadoraLigada);
             hardware.atuValvulaPressao(EstadoHardware.ehValvulaFechada);
         }
-        if (estadoAquecedor.equals(InnerEstadoAquecedor.fazendoJarVazia)) {
+        if (estadoAquecedor.equals(EstadoAquecedor.fazendoJarVazia)) {
             estadoAquecedor = EstadoAquecedor.naoAquecendo;
             cicloCompleto();
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.fazendoAquecendo)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.fazendoAquecendo)) {
             estadoAquecedor = EstadoAquecedor.cafeFeito;
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.jarVaziaRemovida)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.jarVaziaRemovida)) {
             estadoAquecedor = EstadoAquecedor.naoAquecendo;
             cicloCompleto();
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.jarCheiaRemovida)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.jarCheiaRemovida)) {
             estadoAquecedor = EstadoAquecedor.feitoJarRemovida;
         }
     }
@@ -115,7 +115,7 @@ public class Cafeteira {
     }
 
     public void fazerCafe() {
-        if (estadoAquecedor.equals(InnerEstadoAquecedor.naoAquecendo)) {
+        if (estadoAquecedor.equals(EstadoAquecedor.naoAquecendo)) {
             estadoAquecedor = EstadoAquecedor.fazendoJarVazia;
         }
         if (estadoVaporizador.equals(EstadoVaporizador.naoFazendo)) {
@@ -170,47 +170,47 @@ public class Cafeteira {
     }
     
     public void jarraVazia() {
-        if (estadoAquecedor.equals(InnerEstadoAquecedor.fazendoAquecendo)) {
+        if (estadoAquecedor.equals(EstadoAquecedor.fazendoAquecendo)) {
             estadoAquecedor = EstadoAquecedor.fazendoJarVazia;
             hardware.atuElementoAquecedor(EstadoHardware.ehAquecedorDesligado);
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.jarVaziaRemovida)
-                || estadoAquecedor.equals(InnerEstadoAquecedor.jarCheiaRemovida)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.jarVaziaRemovida)
+                || estadoAquecedor.equals(EstadoAquecedor.jarCheiaRemovida)) {
             estadoAquecedor = EstadoAquecedor.fazendoJarVazia;
             jarra();
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.cafeFeito)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.cafeFeito)) {
             estadoAquecedor = EstadoAquecedor.naoAquecendo;
             hardware.atuElementoAquecedor(EstadoHardware.ehAquecedorDesligado);
             cicloCompleto();
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.feitoJarRemovida)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.feitoJarRemovida)) {
             estadoAquecedor = EstadoAquecedor.naoAquecendo;
             cicloCompleto();
         }
     }
 
     public void jarraNaoVazia() {
-        if (estadoAquecedor.equals(InnerEstadoAquecedor.fazendoJarVazia)) {
+        if (estadoAquecedor.equals(EstadoAquecedor.fazendoJarVazia)) {
             estadoAquecedor = EstadoAquecedor.fazendoAquecendo;
             hardware.atuElementoAquecedor(EstadoHardware.ehAquecedorLigado);
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.jarVaziaRemovida)
-                || estadoAquecedor.equals(InnerEstadoAquecedor.jarCheiaRemovida)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.jarVaziaRemovida)
+                || estadoAquecedor.equals(EstadoAquecedor.jarCheiaRemovida)) {
             estadoAquecedor = EstadoAquecedor.fazendoAquecendo;
             hardware.atuElementoAquecedor(EstadoHardware.ehAquecedorLigado);
             jarra();
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.feitoJarRemovida)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.feitoJarRemovida)) {
             estadoAquecedor = EstadoAquecedor.cafeFeito;
             hardware.atuElementoAquecedor(EstadoHardware.ehAquecedorLigado);
         }
     }
 
     public void placaVazia() {
-        if (estadoAquecedor.equals(InnerEstadoAquecedor.fazendoJarVazia)) {
+        if (estadoAquecedor.equals(EstadoAquecedor.fazendoJarVazia)) {
             estadoAquecedor = EstadoAquecedor.jarVaziaRemovida;
             semJarra();
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.fazendoAquecendo)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.fazendoAquecendo)) {
             estadoAquecedor = EstadoAquecedor.jarCheiaRemovida;
             semJarra();
             hardware.atuElementoAquecedor(EstadoHardware.ehAquecedorDesligado);
-        } else if (estadoAquecedor.equals(InnerEstadoAquecedor.cafeFeito)) {
+        } else if (estadoAquecedor.equals(EstadoAquecedor.cafeFeito)) {
             estadoAquecedor = EstadoAquecedor.feitoJarRemovida;
             hardware.atuElementoAquecedor(EstadoHardware.ehAquecedorDesligado);
         }
@@ -244,6 +244,7 @@ public class Cafeteira {
      * This class is here only to verify that my MetaClass class
      * works as planned, see RTestCafeteira.
      */
+
     static class InnerEstadoAquecedor {
         
         // Estados da máquina de estados do aquecedor
