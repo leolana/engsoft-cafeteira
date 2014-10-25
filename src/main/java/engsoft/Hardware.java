@@ -14,7 +14,7 @@ public class Hardware {
     private EstadoHardware estadoLuzIndicadora;
     private EstadoHardware estadoValvulaPressao;
 
-    // Estado dos reservatórios
+    // Estado dos reservat�rios
     private int nivelDeAgua;
     private int nivelDeCafe;
 
@@ -36,7 +36,7 @@ public class Hardware {
 
         nivelDeAgua = 0;
         nivelDeCafe = 0;
-  
+
         jc = new JanelaCafeteira(this);
     }
 
@@ -152,7 +152,7 @@ public class Hardware {
 
     public synchronized void ajustaNivelDeCafe(int nivel) {
         if ((nivel >= 0) && (nivel <= 100)) {
-        	nivelDeCafe = nivel;
+            nivelDeCafe = nivel;
             if (!estadoAquecedor.equals(EstadoHardware.placaVazia)) {
                 if (nivelDeCafe == 0) {
                     estadoAquecedor = EstadoHardware.jarraVazia;
@@ -160,9 +160,8 @@ public class Hardware {
                     estadoAquecedor = EstadoHardware.jarraNaoVazia;
                 }
             }
+            jc.atualizaEstado();
         }
-        
-        jc.atualizaEstado();
     }
 
 
