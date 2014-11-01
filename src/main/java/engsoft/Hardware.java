@@ -36,7 +36,7 @@ public class Hardware {
 
         nivelDeAgua = 0;
         nivelDeCafe = 0;
-  
+
         jc = new JanelaCafeteira(this);
     }
 
@@ -51,8 +51,8 @@ public class Hardware {
 
     public void atuElementoAquecedor(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.aquecedorLigado)
-                || modo.equals(EstadoHardware.aquecedorDesligado)) {
-            estadoElementoAquecedor = modo;     
+	    || modo.equals(EstadoHardware.aquecedorDesligado)) {
+            estadoElementoAquecedor = modo;
             jc.atualizaEstado();
         }
     }
@@ -64,23 +64,30 @@ public class Hardware {
 
     public void atuEstadoElementoEbulidor(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.ebulidorLigado)
-                || modo.equals(EstadoHardware.ebulidorDesligado)) {
+	    || modo.equals(EstadoHardware.ebulidorDesligado)) {
             estadoElementoEbulidor = modo;
             jc.atualizaEstado();
         }
     }
 
-    // Interruptor
-    public EstadoHardware leEstadoInterruptor() {
-        EstadoHardware modo = estadoInterruptor;
-        estadoInterruptor = EstadoHardware.interruptorSolto;
-        return modo;
+
+    // Interuptor
+    public void atuInterruptor(EstadoHardware modo){
+    	if(modo.equals(EstadoHardware.interruptorPressionado) || modo.equals(EstadoHardware.interruptorSolto)){
+	    estadoInterruptor = EstadoHardware.interruptorSolto;
+	    jc.atualizaEstado();
+
+    	}
     }
+
 
     // Luz indicadora
     public void atuLuzIndicadora(EstadoHardware modo) {
+    	// Inclusao do estado de coar
         if (modo.equals(EstadoHardware.indicadoraLigada)
-                || modo.equals(EstadoHardware.indicadoraDesligada)) {
+	    || modo.equals(EstadoHardware.indicadorCoando)
+	    || modo.equals(EstadoHardware.indicadoraDesligada)) {
+
             estadoLuzIndicadora = modo;
             jc.atualizaEstado();
         }
@@ -89,7 +96,7 @@ public class Hardware {
     // Válvula de pressão
     public void atuValvulaPressao(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.valvulaAberta)
-                || modo.equals(EstadoHardware.valvulaFechada)) {
+	    || modo.equals(EstadoHardware.valvulaFechada)) {
             estadoValvulaPressao = modo;
             jc.atualizaEstado();
         }
@@ -98,6 +105,11 @@ public class Hardware {
 
     // Metodos usados na 'implementação' do harware. São usados pela
     // interface gráfica.
+
+    // Inclusao da interface para leitura do Interruptor
+    public EstadoHardware leEstadoInterruptor() {
+        return estadoInterruptor;
+    }
     public EstadoHardware leEstadoLuzIndicadora() {
         return estadoLuzIndicadora;
     }
@@ -152,7 +164,7 @@ public class Hardware {
 
     public synchronized void ajustaNivelDeCafe(int nivel) {
         if ((nivel >= 0) && (nivel <= 100)) {
-        	nivelDeCafe = nivel;
+	    nivelDeCafe = nivel;
             if (!estadoAquecedor.equals(EstadoHardware.placaVazia)) {
                 if (nivelDeCafe == 0) {
                     estadoAquecedor = EstadoHardware.jarraVazia;
@@ -161,7 +173,7 @@ public class Hardware {
                 }
             }
         }
-        
+
         jc.atualizaEstado();
     }
 
@@ -171,13 +183,13 @@ public class Hardware {
     // gráfica.
     public synchronized void fazCafe() {
         if (estadoEbulidor.equals(EstadoHardware.ebulidorNaoVazio)
-                && estadoElementoEbulidor.equals(EstadoHardware.ebulidorLigado)
-                && estadoValvulaPressao.equals(EstadoHardware.valvulaFechada)) {
+	    && estadoElementoEbulidor.equals(EstadoHardware.ebulidorLigado)
+	    && estadoValvulaPressao.equals(EstadoHardware.valvulaFechada)) {
             ajustaNivelDeAgua(pegaNivelDeAgua() - 1);
             ajustaNivelDeCafe(pegaNivelDeCafe() + 1);
         }
     }
-    
+
     public void iniciar() {
         // Inicia a ebulição da água
         new Serpentina(this).start();
@@ -187,7 +199,7 @@ public class Hardware {
 }
 
 class Serpentina extends Thread {
-    
+
     private Hardware cafeteira;
 
     public Serpentina(Hardware oHardware) {
@@ -197,7 +209,8 @@ class Serpentina extends Thread {
     public void run() {
         try {
             while (true) {
-                sleep(1000);
+// Teste demorando demais => diminui o sleep.
+                sleep(10);
                 cafeteira.fazCafe();
             }
         } catch (InterruptedException e) {

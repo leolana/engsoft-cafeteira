@@ -83,7 +83,7 @@ public class Cafeteira
         
         //////////////////////////////////////////////////////////////////
         // Executa a cafeteira
-
+        
         // Inicia o hardware
         oHardware.iniciar();
 

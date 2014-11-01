@@ -54,6 +54,8 @@ public class IHC {
         if (estado.equals(EstadoIHC.verificandoProntidao)) {
             estado = EstadoIHC.fazendo;
             cliente.fazerCafe();
+            // Atualizando a luz indicadora com o estado de coar
+            hardware.atuLuzIndicadora(EstadoHardware.indicadorCoando);
         }
     }
 
