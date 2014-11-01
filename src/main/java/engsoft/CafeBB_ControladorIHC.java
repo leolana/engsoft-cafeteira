@@ -5,7 +5,7 @@ package engsoft;
  * o hardware da cafeteira CafeBemBrasileiro.
  */
 public class CafeBB_ControladorIHC implements ControladorIHC {
-    
+
     private Hardware cafeteiraCafeBB;
 
     public CafeBB_ControladorIHC(Hardware oHardware) {
@@ -23,5 +23,9 @@ public class CafeBB_ControladorIHC implements ControladorIHC {
     public boolean checaInicio() {
         return cafeteiraCafeBB.leEstadoInterruptor().equals(
                 EstadoHardware.interruptorPressionado);
+    }
+
+    public void indicaCafeCoando(){
+    	cafeteiraCafeBB.atuLuzIndicadora(EstadoHardware.indicadorCoando);
     }
 }

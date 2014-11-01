@@ -51,8 +51,8 @@ public class Hardware {
 
     public void atuElementoAquecedor(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.aquecedorLigado)
-                || modo.equals(EstadoHardware.aquecedorDesligado)) {
-            estadoElementoAquecedor = modo;     
+	    || modo.equals(EstadoHardware.aquecedorDesligado)) {
+            estadoElementoAquecedor = modo;
             jc.atualizaEstado();
         }
     }
@@ -64,7 +64,7 @@ public class Hardware {
 
     public void atuEstadoElementoEbulidor(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.ebulidorLigado)
-                || modo.equals(EstadoHardware.ebulidorDesligado)) {
+	    || modo.equals(EstadoHardware.ebulidorDesligado)) {
             estadoElementoEbulidor = modo;
             jc.atualizaEstado();
         }
@@ -79,17 +79,20 @@ public class Hardware {
 
     // Luz indicadora
     public void atuLuzIndicadora(EstadoHardware modo) {
-        if (modo.equals(EstadoHardware.indicadoraLigada)
-                || modo.equals(EstadoHardware.indicadoraDesligada)) {
-            estadoLuzIndicadora = modo;
-            jc.atualizaEstado();
-        }
+        // Inclusao do novo estado criado para demonstrar o momento que o cafe esta sendo coado
+    	if (modo.equals(EstadoHardware.indicadoraLigada)
+	    || modo.equals(EstadoHardware.indicadorCoando)
+	    || modo.equals(EstadoHardware.indicadoraDesligada))
+	    {
+		jc.atualizaEstado();
+		estadoLuzIndicadora = modo;
+	    }
     }
 
     // Válvula de pressão
     public void atuValvulaPressao(EstadoHardware modo) {
         if (modo.equals(EstadoHardware.valvulaAberta)
-                || modo.equals(EstadoHardware.valvulaFechada)) {
+	    || modo.equals(EstadoHardware.valvulaFechada)) {
             estadoValvulaPressao = modo;
             jc.atualizaEstado();
         }
@@ -170,13 +173,13 @@ public class Hardware {
     // gráfica.
     public synchronized void fazCafe() {
         if (estadoEbulidor.equals(EstadoHardware.ebulidorNaoVazio)
-                && estadoElementoEbulidor.equals(EstadoHardware.ebulidorLigado)
-                && estadoValvulaPressao.equals(EstadoHardware.valvulaFechada)) {
+	    && estadoElementoEbulidor.equals(EstadoHardware.ebulidorLigado)
+	    && estadoValvulaPressao.equals(EstadoHardware.valvulaFechada)) {
             ajustaNivelDeAgua(pegaNivelDeAgua() - 1);
             ajustaNivelDeCafe(pegaNivelDeCafe() + 1);
         }
     }
-    
+
     public void iniciar() {
         // Inicia a ebulição da água
         new Serpentina(this).start();
@@ -186,7 +189,7 @@ public class Hardware {
 }
 
 class Serpentina extends Thread {
-    
+
     private Hardware cafeteira;
 
     public Serpentina(Hardware oHardware) {
@@ -196,7 +199,8 @@ class Serpentina extends Thread {
     public void run() {
         try {
             while (true) {
-                sleep(1000);
+// diminui o sleep pois deixa os testes unitarios lentos demais.
+                sleep(10);
                 cafeteira.fazCafe();
             }
         } catch (InterruptedException e) {

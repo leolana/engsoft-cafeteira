@@ -1,15 +1,15 @@
 package engsoft;
 
-/** 
+/**
  * Classe abstrata que apresenta a interface de um vaporizador de
  * uma cafeteira.
  */
 public abstract class Vaporizador {
-    
+
     private ControladorVaporizador controlador;
     private ClienteVaporizador     cliente;
 
-    public Vaporizador(ControladorVaporizador oControlador, 
+    public Vaporizador(ControladorVaporizador oControlador,
 		       ClienteVaporizador oCliente) {
 	controlador = oControlador;
         cliente = oCliente;
@@ -22,11 +22,11 @@ public abstract class Vaporizador {
     public abstract void fazerCafe();
 
     // Interface para as subclasses
-    protected ControladorVaporizador pegaControlador() {
+    protected ControladorVaporizador getController() {
         return controlador;
     }
 
-    protected ClienteVaporizador pegaCliente() {
+    protected ClienteVaporizador getClient() {
         return cliente;
     }
 }

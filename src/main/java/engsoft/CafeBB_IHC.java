@@ -4,26 +4,26 @@ package engsoft;
  * Esta classe implementa o controle da IHC da cafeteira CafeBemBrasileiro.
  */
 public class CafeBB_IHC extends IHC {
-    
+
     private EstadoIHC estado;
 
     public CafeBB_IHC(ControladorIHC oControlador, ClienteIHC oCliente) {
         super(oControlador, oCliente);
         estado = EstadoIHC.naoFazendo;
-        pegaControlador().indicaPronto();
+        getController().indicaPronto();
     }
 
-    
+
     // Estímulos externos
     public void cafeFeito() {
         if (estado.equals(EstadoIHC.verificandoProntidao))
             estado = EstadoIHC.naoFazendo;
         else if (estado.equals(EstadoIHC.fazendo)) {
             estado = EstadoIHC.cafeFeito;
-            pegaControlador().indicaFim();
+            getController().indicaFim();
         }
     }
-    
+
     public void cicloCompleto() {
         if (estado.equals(EstadoIHC.verificandoProntidao))
             estado = EstadoIHC.naoFazendo;
@@ -31,10 +31,10 @@ public class CafeBB_IHC extends IHC {
             estado = EstadoIHC.naoFazendo;
         else if (estado.equals(EstadoIHC.cafeFeito)) {
             estado = EstadoIHC.naoFazendo;
-            pegaControlador().indicaPronto();
+            getController().indicaPronto();
         }
     }
-    
+
 
     // Eventos da máquina de estados
     public void inicio() {
@@ -47,7 +47,8 @@ public class CafeBB_IHC extends IHC {
     public void pronto() {
         if (estado.equals(EstadoIHC.verificandoProntidao)) {
             estado = EstadoIHC.fazendo;
-            pegaCliente().fazerCafe();
+            getClient().fazerCafe();
+            getController().indicaCafeCoando();
         }
     }
 
@@ -59,31 +60,31 @@ public class CafeBB_IHC extends IHC {
 
     // Método auxiliar
     private void verificaPronto() {
-        if (pegaCliente().checaPronto()) {
+        if (getClient().checaPronto()) {
             pronto();
         } else {
             naoPronto();
         }
     }
-    
-    
+
+
     // Ligação ao programa principal
     public void verifica() {
         if ((estado.equals(EstadoIHC.naoFazendo))
-                && (pegaControlador().checaInicio())) {
+                && (getController().checaInicio())) {
             inicio();
         }
     }
 }
 
 class EstadoIHC {
-    
+
     // Estados da máquina de estados da IHC
-    public static final EstadoIHC naoFazendo=           new EstadoIHC(0); 
-    public static final EstadoIHC fazendo=              new EstadoIHC(1); 
-    public static final EstadoIHC verificandoProntidao= new EstadoIHC(2); 
+    public static final EstadoIHC naoFazendo=           new EstadoIHC(0);
+    public static final EstadoIHC fazendo=              new EstadoIHC(1);
+    public static final EstadoIHC verificandoProntidao= new EstadoIHC(2);
     public static final EstadoIHC cafeFeito=            new EstadoIHC(3);
-    
+
     private int id;
 
     private EstadoIHC(int id) {

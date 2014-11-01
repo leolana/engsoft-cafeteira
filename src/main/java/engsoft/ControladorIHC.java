@@ -9,5 +9,8 @@ package engsoft;
 public interface ControladorIHC {
     public void indicaFim();
     public void indicaPronto();
+
+    // Alteracao da interface indicando cafe coando
+    public void indicaCafeCoando();
     public boolean checaInicio();
 }

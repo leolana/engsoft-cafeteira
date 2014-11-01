@@ -7,15 +7,15 @@ package engsoft;
 public class CafeBB_Aquecedor extends Aquecedor {
 
     private EstadoAquecedor estado;
-    
+
     public CafeBB_Aquecedor(ControladorAquecedor oControlador,
                             ClienteAquecedor oCliente) {
         super(oControlador, oCliente);
         estado = EstadoAquecedor.naoFazendo;
-        pegaControlador().desligaAquecedor();
+        getController().desligaAquecedor();
     }
 
-    
+
     // Estímulos externos
     public void fazerCafe() {
         if (estado.equals(EstadoAquecedor.naoFazendo)) {
@@ -26,79 +26,79 @@ public class CafeBB_Aquecedor extends Aquecedor {
     public void cafeFeito() {
         if (estado.equals(EstadoAquecedor.fazendoJarVazia)) {
             estado = EstadoAquecedor.naoFazendo;
-            pegaCliente().cicloCompleto();
+            getClient().cicloCompleto();
         } else if (estado.equals(EstadoAquecedor.fazendoAquecendo)) {
             estado = EstadoAquecedor.cafeFeito;
         } else if (estado.equals(EstadoAquecedor.jarVaziaRemovida)) {
             estado = EstadoAquecedor.naoFazendo;
-            pegaCliente().cicloCompleto();
+            getClient().cicloCompleto();
         } else if (estado.equals(EstadoAquecedor.jarCheiaRemovida)) {
             estado = EstadoAquecedor.feitoJarRemovida;
         }
     }
 
     public boolean checaPronto() {
-        return pegaControlador().estadoAquecedor().equals(EstadoHardware.jarraVazia);
+        return getController().estadoAquecedor().equals(EstadoHardware.jarraVazia);
     }
-    
+
 
     // Eventos da máquina de estados
     public void jarraVazia() {
         if (estado.equals(EstadoAquecedor.fazendoAquecendo)) {
             estado = EstadoAquecedor.fazendoJarVazia;
-            pegaControlador().desligaAquecedor();
+            getController().desligaAquecedor();
         } else if (estado.equals(EstadoAquecedor.jarVaziaRemovida)
                 || estado.equals(EstadoAquecedor.jarCheiaRemovida)) {
             estado = EstadoAquecedor.fazendoJarVazia;
-            pegaCliente().jarra();
+            getClient().jarra();
         } else if (estado.equals(EstadoAquecedor.cafeFeito)) {
             estado = EstadoAquecedor.naoFazendo;
-            pegaControlador().desligaAquecedor();
-            pegaCliente().cicloCompleto();
+            getController().desligaAquecedor();
+            getClient().cicloCompleto();
         } else if (estado.equals(EstadoAquecedor.feitoJarRemovida)) {
             estado = EstadoAquecedor.naoFazendo;
-            pegaCliente().cicloCompleto();
+            getClient().cicloCompleto();
         }
     }
 
     public void jarraNaoVazia() {
         if (estado.equals(EstadoAquecedor.fazendoJarVazia)) {
             estado = EstadoAquecedor.fazendoAquecendo;
-            pegaControlador().ligaAquecedor();
+            getController().ligaAquecedor();
         } else if (estado.equals(EstadoAquecedor.jarVaziaRemovida)
                 || estado.equals(EstadoAquecedor.jarCheiaRemovida)) {
             estado = EstadoAquecedor.fazendoAquecendo;
-            pegaControlador().ligaAquecedor();
-            pegaCliente().jarra();
+            getController().ligaAquecedor();
+            getClient().jarra();
         } else if (estado.equals(EstadoAquecedor.feitoJarRemovida)) {
             estado = EstadoAquecedor.cafeFeito;
-            pegaControlador().ligaAquecedor();
+            getController().ligaAquecedor();
         }
     }
 
     public void placaVazia() {
         if (estado.equals(EstadoAquecedor.fazendoJarVazia)) {
             estado = EstadoAquecedor.jarVaziaRemovida;
-            pegaCliente().semJarra();
+            getClient().semJarra();
         } else if (estado.equals(EstadoAquecedor.fazendoAquecendo)) {
             estado = EstadoAquecedor.jarCheiaRemovida;
-            pegaCliente().semJarra();
-            pegaControlador().desligaAquecedor();
+            getClient().semJarra();
+            getController().desligaAquecedor();
         } else if (estado.equals(EstadoAquecedor.cafeFeito)) {
             estado = EstadoAquecedor.feitoJarRemovida;
-            pegaControlador().desligaAquecedor();
+            getController().desligaAquecedor();
         }
     }
-    
+
 
     // Ligação ao programa principal
     public void verifica() {
-        if (pegaControlador().estadoAquecedor().equals(EstadoHardware.placaVazia)) {
+        if (getController().estadoAquecedor().equals(EstadoHardware.placaVazia)) {
             placaVazia();
-        } else if (pegaControlador().estadoAquecedor().equals(
+        } else if (getController().estadoAquecedor().equals(
                 EstadoHardware.jarraVazia)) {
             jarraVazia();
-        } else if (pegaControlador().estadoAquecedor().equals(
+        } else if (getController().estadoAquecedor().equals(
                 EstadoHardware.jarraNaoVazia)) {
             jarraNaoVazia();
         }
@@ -106,18 +106,18 @@ public class CafeBB_Aquecedor extends Aquecedor {
 }
 
 class EstadoAquecedor {
-    
+
     // Estados da máquina de estados do aquecedor
-    public static final EstadoAquecedor naoFazendo=      new EstadoAquecedor(0); 
-    public static final EstadoAquecedor fazendoJarVazia= new EstadoAquecedor(1); 
-    public static final EstadoAquecedor fazendoAquecendo=new EstadoAquecedor(2); 
+    public static final EstadoAquecedor naoFazendo=      new EstadoAquecedor(0);
+    public static final EstadoAquecedor fazendoJarVazia= new EstadoAquecedor(1);
+    public static final EstadoAquecedor fazendoAquecendo=new EstadoAquecedor(2);
     public static final EstadoAquecedor jarVaziaRemovida=new EstadoAquecedor(3);
-    public static final EstadoAquecedor jarCheiaRemovida=new EstadoAquecedor(4); 
-    public static final EstadoAquecedor cafeFeito=       new EstadoAquecedor(5); 
-    public static final EstadoAquecedor feitoJarRemovida=new EstadoAquecedor(6); 
-    
+    public static final EstadoAquecedor jarCheiaRemovida=new EstadoAquecedor(4);
+    public static final EstadoAquecedor cafeFeito=       new EstadoAquecedor(5);
+    public static final EstadoAquecedor feitoJarRemovida=new EstadoAquecedor(6);
+
     private int id;
-    
+
     private EstadoAquecedor(int id) {
         this.id = id;
     }

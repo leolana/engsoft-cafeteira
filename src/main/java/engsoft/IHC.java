@@ -1,13 +1,13 @@
 package engsoft;
 
-/** 
- * Classe abstrata que implementa a interface homem computador de uma
- * cafeteira. Esta classe conhece clientes da IHC e o controlador do
- * hardware. Ela permite que classes externas notifiquem o estado do
- * ciclo de confecção do café.
- */
+/*
+  interface grafica de uma cafeteira. Esta classe conhece clientes da
+  interface e o controlador do hardware. Ela permite que classes externas
+  notifiquem o estado do ciclo de confecção do café.
+*/
+
 public abstract class IHC {
-    
+
     private ControladorIHC controlador;
     private ClienteIHC     cliente;
 
@@ -21,11 +21,11 @@ public abstract class IHC {
     public abstract void cicloCompleto();
 
     // Interface para as subclasses
-    protected ControladorIHC pegaControlador() {
+    protected ControladorIHC getController() {
         return controlador;
     }
 
-    protected ClienteIHC pegaCliente() {
+    protected ClienteIHC getClient() {
         return cliente;
     }
 }

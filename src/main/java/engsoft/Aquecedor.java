@@ -6,11 +6,11 @@ package engsoft;
  * café e é informado que a confecção do café terminou.
  */
 public abstract class Aquecedor {
-    
+
     private ControladorAquecedor controlador;
     private ClienteAquecedor     cliente;
 
-    public Aquecedor(ControladorAquecedor oControlador, 
+    public Aquecedor(ControladorAquecedor oControlador,
 		     ClienteAquecedor oCliente) {
 	controlador = oControlador;
         cliente = oCliente;
@@ -22,11 +22,11 @@ public abstract class Aquecedor {
     public abstract boolean checaPronto();
 
     // Interface para as subclasses
-    protected ControladorAquecedor pegaControlador() {
+    protected ControladorAquecedor getController() {
         return controlador;
     }
 
-    protected ClienteAquecedor pegaCliente() {
+    protected ClienteAquecedor getClient() {
         return cliente;
     }
 }

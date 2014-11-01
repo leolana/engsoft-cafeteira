@@ -5,77 +5,74 @@ package engsoft;
  * da cafeteira CafeBemBrasileiro.
  */
 public class CafeBB_Vaporizador extends Vaporizador {
-    
+
     private EstadoVaporizador estado;
 
-    public CafeBB_Vaporizador(ControladorVaporizador oControlador, 
+    public CafeBB_Vaporizador(ControladorVaporizador oControlador,
                               ClienteVaporizador oCliente) {
         super(oControlador, oCliente);
         estado = EstadoVaporizador.naoFazendo;
-        pegaControlador().naoJogaAgua();
+        getController().naoJogaAgua();
     }
 
-    
     // Estímulos externos
     public boolean checaPronto() {
-        return pegaControlador().temAgua();
+        return getController().temAgua();
     }
 
     public void jarra() {
         if (estado.equals(EstadoVaporizador.fazendoJarRemovida)) {
             estado = EstadoVaporizador.vaporizando;
-            pegaControlador().jogaAgua();
+            getController().jogaAgua();
         }
     }
 
     public void semJarra() {
         if (estado.equals(EstadoVaporizador.vaporizando)) {
             estado = EstadoVaporizador.fazendoJarRemovida;
-            pegaControlador().naoJogaAgua();
+            getController().naoJogaAgua();
         }
     }
 
     public void fazerCafe() {
         if (estado.equals(EstadoVaporizador.naoFazendo)) {
             estado = EstadoVaporizador.vaporizando;
-            pegaControlador().jogaAgua();
+            getController().jogaAgua();
         }
     }
-    
 
     // Eventos da máquina de estados
     public void cafeFeito() {
         if (estado.equals(EstadoVaporizador.vaporizando)) {
             estado = EstadoVaporizador.naoFazendo;
-            pegaControlador().naoJogaAgua();
-            pegaCliente().cafeFeito();
+            getController().naoJogaAgua();
+            getClient().cafeFeito();
         } else if (estado.equals(EstadoVaporizador.fazendoJarRemovida)) {
             estado = EstadoVaporizador.naoFazendo;
-            pegaCliente().cafeFeito();
-        } 
+            getClient().cafeFeito();
+        }
     }
 
-    
     // Ligação ao programa principal
     public void verifica() {
-        if (!pegaControlador().temAgua()) {
+        if (!getController().temAgua()) {
             cafeFeito();
         }
     }
 }
 
 class EstadoVaporizador {
- 
+
     // Estados da máquina de estados do vaporizador
-    public static final EstadoVaporizador naoFazendo= 
+    public static final EstadoVaporizador naoFazendo=
         new EstadoVaporizador(0);
     public static final EstadoVaporizador vaporizando=
         new EstadoVaporizador(1);
-    public static final EstadoVaporizador fazendoJarRemovida= 
+    public static final EstadoVaporizador fazendoJarRemovida=
         new EstadoVaporizador(2);
-    
+
     private int id;
-    
+
     private EstadoVaporizador(int id) {
         this.id = id;
     }
